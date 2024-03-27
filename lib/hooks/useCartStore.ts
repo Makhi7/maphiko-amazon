@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { round2 } from "../utils";
 import { OrderItem } from "../models/OrderModels";
+import { persist } from "zustand/middleware";
+
 
 // Define cart type
 type Cart = {
@@ -24,10 +26,13 @@ const initialState: Cart = {
 
 
 //create function from 
-// zustand that holds the returned value of a 
-//Cart with it's initial
-//default values
-export const cartStore = create<Cart>(() => initialState);
+//zustand that holds the cart value in local storage
+//using the persist function 
+export const cartStore = create<Cart>()(
+    persist(() => initialState, {
+        name: "cartStore",
+    })
+)
 
 export default function usedCartService(){
 
